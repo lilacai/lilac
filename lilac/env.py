@@ -56,6 +56,9 @@ class LilacEnvironment(BaseModel):
   COHERE_API_KEY: str = PydanticField(
     description='The Cohere API key, used for computing `cohere` embeddings.'
   )
+  LILAC_API_KEY: str = PydanticField(
+    description='The Lilac API key, used for running Lilac Garden computations.'
+  )
 
   # HuggingFace demo.
   HF_ACCESS_TOKEN: str = PydanticField(

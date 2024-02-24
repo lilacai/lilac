@@ -3,11 +3,11 @@ import gc
 import itertools
 from typing import Callable, Iterator, Optional, Union, cast
 
-import modal
 import numpy as np
 from tqdm import tqdm
 
-from ..batch_utils import compress_docs, flatten_path_iter
+from .. import garden_client
+from ..batch_utils import flatten_path_iter
 from ..dataset_format import DatasetFormatInputSelector
 from ..embeddings.jina import JinaV2Small
 from ..schema import (
@@ -301,11 +301,7 @@ def _hdbscan_cluster(
 ) -> Iterator[Item]:
   """Cluster docs with HDBSCAN."""
   if use_garden:
-    remote_fn = modal.Function.lookup('cluster', 'Cluster.cluster').remote
-    with DebugTimer('Compressing docs for clustering remotely'):
-      gzipped_docs = compress_docs(list(docs))
-    response = remote_fn({'gzipped_docs': gzipped_docs, 'min_cluster_size': min_cluster_size})
-    yield from response['clusters']
+    yield from garden_client.cluster(list(docs), min_cluster_size=min_cluster_size)
 
   if task_info:
     task_info.message = 'Computing embeddings'

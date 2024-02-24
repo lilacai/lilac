@@ -79,6 +79,9 @@ class AuthenticationInfo(BaseModel):
 
 def has_garden_credentials() -> bool:
   """Returns whether the user has Garden credentials."""
+  # TODO: more granular checks based on user permissions
+  if env('LILAC_API_KEY') is not None:
+    return True
   config = modal.config.Config().to_dict()
   return (
     'token_secret' in config
