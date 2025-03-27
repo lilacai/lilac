@@ -1,2 +1,1 @@
-# lilac
-Databricks Bugbounty POC
+# Databricks Bugbounty POC
