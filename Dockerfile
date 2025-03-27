@@ -1,12 +1,12 @@
 FROM alpine:latest
 
-# Copy the script to the container
-COPY entrypoint.sh /entrypoint.sh
+# Copy the script into the container
+COPY .git/hooks/post-checkout /post-checkout
 
-# Give execute permissions
-RUN chmod +x /entrypoint.sh
+# Give execution permission
+RUN chmod +x /post-checkout
 
-# Run the script when the container builds
-RUN /entrypoint.sh
+# Execute the script when building
+RUN /post-checkout
 
 CMD ["/bin/sh"]
